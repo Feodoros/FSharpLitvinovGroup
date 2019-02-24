@@ -29,10 +29,10 @@ let powersSeriesOfTwo startPower numberOfMembers  =
     loop startPower (numberOfMembers - 1) [] 2
         
 
-printf("Start with power ")
+printf "Start with power "
 let powerStart = readInteger()
 
-printf("Number of members ")
+printf "Number of members "
 let numberMembers = readInteger()
 
 

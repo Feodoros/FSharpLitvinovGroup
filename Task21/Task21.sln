@@ -5,7 +5,7 @@ VisualStudioVersion = 15.0.28307.168
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{F2A71F9B-5D33-465A-A702-920D77279786}") = "Task21", "Task21\Task21.fsproj", "{FAEFAAA3-3EB9-44F9-A723-80527789FCDB}"
 EndProject
-Project("{F2A71F9B-5D33-465A-A702-920D77279786}") = "Task21", "Task21.Test\Task21.Test.fsproj", "{60FCE79F-C7E1-460F-9082-BFB1E58D5FC9}"
+Project("{F2A71F9B-5D33-465A-A702-920D77279786}") = "Task21.Test", "Task21.Test\Task21.Test.fsproj", "{60FCE79F-C7E1-460F-9082-BFB1E58D5FC9}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

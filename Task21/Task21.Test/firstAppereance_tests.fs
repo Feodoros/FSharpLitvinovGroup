@@ -7,13 +7,13 @@ open logic
 
 
 [<Test>]
-let ``When getting sum of multiples of 3 and 5 to a max number of 10 it should return a sum of 23`` () =
+let ``First appereance of 5 in list should be equal 4.`` () =
     firstAppearance [1..10] 5 |> should equal (Some(4))
 
 [<Test>]
-let ``asd`` () =
+let ``First appereance of 4 in list should be equal None.`` () =
     firstAppearance [1..3] 4 |> should equal (None)
 
 [<Test>]
-let ``asdd`` () =
+let ``First appereance of 5 in empty list should be equal None.`` () =
     firstAppearance [] 5 |> should equal None

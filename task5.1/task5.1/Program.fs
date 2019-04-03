@@ -15,10 +15,7 @@
         let delete = 
             while (onlyBrackets.Length <> n) do
                 n <- onlyBrackets.Length
-                onlyBrackets <- onlyBrackets.Replace("()","")
-                onlyBrackets <- onlyBrackets.Replace("{}","")
-                onlyBrackets <- onlyBrackets.Replace("[]","")
-
+                onlyBrackets <- onlyBrackets.Replace("()","").Replace("{}","").Replace("[]","")
         onlyBrackets = ""   
 
     

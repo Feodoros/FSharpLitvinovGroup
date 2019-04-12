@@ -2,7 +2,7 @@
 
 open NUnit.Framework
 open FsUnit
-open logic
+open Logic
 
 
 

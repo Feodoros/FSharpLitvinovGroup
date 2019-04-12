@@ -1,16 +1,11 @@
-﻿module logic
+﻿module Logic 
 
-let firstAppearance list number = 
-    let rec loop list index =
-        match list with
-        |[] -> None
-        |_ when List.head list = number -> Some(index)
-        |_::_ -> loop (List.tail list) (index + 1)
-    loop list 0
+    let firstAppearance list number = 
+        let rec loop list index =
+            match list with
+            |[] -> None
+            | h::t when h = number -> Some(index)
+            | h::t -> loop t (index + 1)
+        loop list 0
 
-let num = 5
-let list = [1..10]
-
-let answer = firstAppearance list num
-
-printfn "First appearance of %i in list = %O" num answer
+    

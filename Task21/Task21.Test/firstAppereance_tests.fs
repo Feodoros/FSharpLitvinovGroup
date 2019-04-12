@@ -4,8 +4,6 @@ open NUnit.Framework
 open FsUnit
 open Logic
 
-
-
 [<Test>]
 let ``First appereance of 5 in list should be equal 4.`` () =
     firstAppearance [1..10] 5 |> should equal (Some(4))

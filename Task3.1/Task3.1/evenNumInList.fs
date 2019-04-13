@@ -1,8 +1,8 @@
-﻿module Logic =  
+﻿module Logic 
 
     ///Делаем из четных нечетные, берем остаток от деления по модулю (1) и суммируем.
-    let evenNumWithMapSumBy = 
-        List.sumBy (fun x -> abs ((x + 1) % 2))
+    let evenNumWithMapSumBy list = 
+        List.sumBy (fun x -> abs ((x + 1) % 2)) list
 
     ///Четные берем в новый список и получаем его длину.
     let evenNumWithFilter list =

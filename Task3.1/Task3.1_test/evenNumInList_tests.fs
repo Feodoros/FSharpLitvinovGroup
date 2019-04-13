@@ -1,8 +1,8 @@
-﻿module tests 
+﻿module Tests 
 
     open NUnit.Framework
     open FsUnit
-    open logic 
+    open Logic 
 
     [<Test>]
     let ``With op. Map -> Count of even num in list [-10..10] should be equal 11`` () =

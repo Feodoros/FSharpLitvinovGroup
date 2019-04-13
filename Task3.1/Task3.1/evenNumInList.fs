@@ -1,13 +1,13 @@
-﻿module logic  
+﻿module Logic =  
 
-//Вычитаем из полного количества элементов количество нечетных элементов (нечет % 2 по модулю = 1, складываем эти единицы)
-    let evenNumWithMap list = 
-        List.length list - List.sum (List.map (fun x -> abs (x % 2)) list)
+    ///Делаем из четных нечетные, берем остаток от деления по модулю (1) и суммируем.
+    let evenNumWithMapSumBy = 
+        List.sumBy (fun x -> abs ((x + 1) % 2))
 
-//Четные берем в новый список и получаем его длину.
+    ///Четные берем в новый список и получаем его длину.
     let evenNumWithFilter list =
         List.length (List.filter (fun x -> x % 2 = 0) list)
 
-//Объявляем acc как длину исходного списка, далее вычитаем из нее единицу, когда встречаем нечет по аналогии с 1ым методом.
+    ///Объявляем acc как длину исходного списка, далее вычитаем из нее единицу, когда встречаем нечет по аналогии с 1ым методом.
     let evenNumWithFold list =
         List.fold (fun acc x -> acc - abs (x % 2)) (List.length list) list

@@ -1,12 +1,16 @@
-﻿module tests 
+﻿module Tests 
 
     open NUnit.Framework
     open FsUnit
-    open logic 
+    open Logic 
 
-     [<Test>]
+    [<Test>]
     let ``Compute one num.`` () = 
         makeSomeOperation <| Number(241) |> should equal 241
+
+    [<Test>]
+    let ``Divide by zero.`` () = 
+      (fun () ->  makeSomeOperation <| Divide (Number(241), Number 0) |> ignore) |> should throw typeof<ZeroException> 
 
     [<Test>]
     let ``Сompute next: (2+2)*2.`` () = 

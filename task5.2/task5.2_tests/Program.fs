@@ -1,8 +1,13 @@
-﻿// Learn more about F# at http://fsharp.org
+﻿module Tests
 
-open System
+    open NUnit.Framework    
+    open FsCheck.NUnit 
+    open FsUnit
 
-[<EntryPoint>]
-let main argv =
-    printfn "Hello World from F#!"
-    0 // return an integer exit code
+    [<Test>]
+    let ``Test our finalFunc`` () =
+        (|>) List.map ((>>) (*)) 10 [0..5] |> should equal [0; 10; 20; 30; 40; 50]
+
+    [<Property>]
+    let ``FsCheck testing.`` (num : int, list : list<int>) =        
+        (List.map (fun y -> y * num) list) = (|>) List.map ((>>) (*)) num list

@@ -13,16 +13,17 @@
         
     let isBalanced (line : string) =        
         let onlyBrackets = transformString line
-        let checkBrackets (str : string) =
-            ///Удаляем из строки (),{},[] пока не выйдем из цикла. Если все ок, то результат - пустая строка.
-            let rec delete (str : string) (n : int) = 
-                if (str.Length = 0) then true
-                elif (str.Length = n) then false
-                else let prevLength = str.Length 
-                     let changedString = str.Replace("()","").Replace("{}","").Replace("[]","")
-                     delete changedString prevLength
-            delete str -1            
-        checkBrackets onlyBrackets
+        
+        ///Удаляем из строки (),{},[] пока не выйдем из цикла. Если все ок, то результат - пустая строка.
+        let rec deleteAndCheck (str : string) (n : int) = 
+            if (str.Length = 0) then true
+            elif (str.Length = n) then false
+            else 
+                let prevLength = str.Length 
+                let changedString = str.Replace("()","").Replace("{}","").Replace("[]","")
+                deleteAndCheck changedString prevLength
+        deleteAndCheck onlyBrackets -1            
+        
 
 
     

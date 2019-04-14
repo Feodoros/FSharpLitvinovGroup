@@ -1,17 +1,17 @@
-﻿module test
+﻿module Test
 
     open NUnit.Framework
     open FsUnit
-    open logic 
+    open Logic 
 
      [<Test>]
     let ``Check correctness 1 with correct string.`` () = 
-        checkBrackets "(string{[hello]})" |> should equal true
+        isBalanced "(string{[hello]})" |> should equal true
 
     [<Test>]
     let ``Check correctness 2 with correct string.`` () = 
-        checkBrackets "({[]} ({check this}))" |> should equal true
+        isBalanced "({[]} ({check this}))" |> should equal true
 
     [<Test>]
     let ``Check correctness 3 with wrong string.`` () = 
-        checkBrackets "{1[0[1]]" |> should equal false
+        isBalanced "{1[0[1]]" |> should equal false

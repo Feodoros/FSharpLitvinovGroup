@@ -12,4 +12,6 @@
     let func3 = fun x -> List.map ((*) x)
 
     ///Избавились от аргумента, применили композицию.
-    let funcFinal = (|>) List.map ((>>) (*))
+    let func4 = (|>) List.map ((>>) (*))
+	
+	let funcFinal = List.map << (*)

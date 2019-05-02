@@ -1,16 +1,16 @@
-﻿module test
+﻿module Test
 
     open NUnit.Framework
     open FsUnit
-    open logic 
+    open Logic 
 
      [<Test>]
     let ``Check seq with prime num 13.`` () = 
-        Seq.exists (fun x -> x = 13) <| makeSequenceOfPrimes () |> should equal true
+        Seq.exists ((=) 13) <| makeSequenceOfPrimes () |> should equal true
 
     [<Test>]
     let ``Check seq with prime num 239.`` () = 
-        Seq.exists (fun x -> x = 239) <| makeSequenceOfPrimes () |> should equal true
+        Seq.exists ((=) 239) <| makeSequenceOfPrimes () |> should equal true
 
     [<Test>]
     let ``Let's see 42th prime number.`` () = 

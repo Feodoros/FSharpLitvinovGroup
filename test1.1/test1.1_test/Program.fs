@@ -5,5 +5,5 @@
     open Logic
 
     [<Test>]
-    let ``Sum of even elements less than 1000000 in fib seq should be 1089154`` () =
-        sumNum ()|> should equal 1089154 
+    let ``Test ``Test list```` () =
+        supermap [1;2;3] (fun x -> [x + 1; x + 3])  ()|> should equal [2; 3; 4; 6; 6; 9] 

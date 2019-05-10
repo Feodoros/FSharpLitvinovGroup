@@ -6,4 +6,4 @@
 
     [<Test>]
     let ``Test ``Test list```` () =
-        supermap [1;2;3] (fun x -> [x + 1; x + 3])  ()|> should equal [2; 3; 4; 6; 6; 9] 
+        supermap [1;2;3] (fun x -> [x + 1; x + 3])  ()|> should equal [4; 6; 3; 5; 2; 4] 

@@ -6,17 +6,17 @@
 
     ///Converter to binSys. Жду комментариев по стайлгайду куда его лучше пихнуть сюда или в logic,
     ///ну а идея веселая сделать бинарная дерево, элементы которого переведены в 2-чную сс :)
-    let rec to_Binary value =
+    let rec toBinary value =
         if value < 2u then value.ToString()
         else 
           let divisor = value / 2u
           let remainder = (value % 2u)
-          to_Binary (divisor) + remainder.ToString() 
+          toBinary (divisor) + remainder.ToString() 
 
 
     [<Test>]
     let ``Make binary number from each element of binary tree to make super binary tree.`` () =
-        mapFuncForBinTree (fun x -> to_Binary x) <| Tree (2u, Tree (3u, Tip 9u, Tree (1u, Tip 1u, Tip 8u )), Tree (2u, Tip 4u, Tip 1u))
+        mapFuncForBinTree (fun x -> toBinary x) <| Tree (2u, Tree (3u, Tip 9u, Tree (1u, Tip 1u, Tip 8u )), Tree (2u, Tip 4u, Tip 1u))
         |> should equal 
         <| Tree ("10", Tree ("11", Tip "1001", Tree ("1", Tip "1", Tip "1000")), Tree ("10", Tip "100", Tip "1"))
 

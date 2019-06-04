@@ -29,12 +29,13 @@
         | Exp(s, p) -> Exp(checkToRename s check y, alphaReduction check p y)
         | FullExp(s, p) -> FullExp(alphaReduction check s y, alphaReduction check p y)
     
-    let rec betaExp check x y =
+    ///Разбираем и проверяем терм 
+    let rec checkExp check x y =
        match x with
        | Letter(t) when (t = check) -> y
        | Letter(t) -> Letter(t)
-       | Exp(m, n) -> Exp(m, betaExp check n y)
-       | FullExp(m, n) -> FullExp(betaExp check m y, betaExp check n y)
+       | Exp(m, n) -> Exp(m, checkExp check n y)
+       | FullExp(m, n) -> FullExp(checkExp check m y, checkExp check n y)
 
     ///Бета-редукция
     let rec betaReduction x =     
@@ -51,7 +52,7 @@
             | _ -> FullExp(Letter(y), s)
         | FullExp(Exp(t, u), y) -> 
             match y with
-            | Letter(o) when (collision x o) -> betaReduction (betaExp (checkToRename t o x) (alphaReduction o u x) y)     
-            | _ ->  betaReduction (betaExp t u y)
+            | Letter(o) when (collision x o) -> betaReduction (checkExp (checkToRename t o x) (alphaReduction o u x) y)     
+            | _ ->  betaReduction (checkExp t u y)
         | FullExp(s, y) -> betaReduction (FullExp(betaReduction s, betaReduction y))
 

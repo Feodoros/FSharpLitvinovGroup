@@ -13,16 +13,27 @@
         
     let isBalanced (line : string) =        
         let onlyBrackets = transformString line
-        
-        ///Удаляем из строки (),{},[] пока не выйдем из цикла. Если все ок, то результат - пустая строка.
-        let rec deleteAndCheck (str : string) (n : int) = 
-            if (str.Length = 0) then true
-            elif (str.Length = n) then false
-            else 
-                let prevLength = str.Length 
-                let changedString = str.Replace("()","").Replace("{}","").Replace("[]","")
-                deleteAndCheck changedString prevLength
-        deleteAndCheck onlyBrackets -1            
+        let charList = Array.toList <| onlyBrackets.ToCharArray() 
+
+        ///Считаем open/closed скобки
+        let rec bracketCounter list n1 n2 n3 = 
+            if (n1 * n2 * n3 = 0) then false
+            else     
+                match list with
+                | [] -> 
+                    n1 + n2 + n3 = 3
+                | h :: t ->             
+                    match h with
+                    | '(' -> bracketCounter t (n1 + 1) n2 n3
+                    | ')' -> bracketCounter t (n1 - 1) n2 n3                          
+                    | '{' -> bracketCounter t n1 (n2 + 1) n3                                   
+                    | '}' -> bracketCounter t n1 (n2 - 1) n3                          
+                    | '[' -> bracketCounter t n1 n2 (n3 + 1)
+                    | ']' -> bracketCounter t n1 n2 (n3 - 1)                                 
+                    | _ -> failwith "very interesting..."
+
+        bracketCounter charList 1 1 1     
+          
         
 
 

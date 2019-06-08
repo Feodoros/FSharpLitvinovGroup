@@ -1,4 +1,6 @@
 ﻿module Logic 
+    open System.Collections
+    open System
     
     ///Оставляем от нашей строки только строку из скобок.
     let transformString (line : string) =
@@ -14,25 +16,31 @@
     let isBalanced (line : string) =        
         let onlyBrackets = transformString line
         let charList = Array.toList <| onlyBrackets.ToCharArray() 
+        let stack = Stack()
 
-        ///Считаем open/closed скобки
-        let rec bracketCounter list n1 n2 n3 = 
-            if (n1 * n2 * n3 = 0) then false
-            else     
+        ///Работаем со стеком. Открывающие добавляем, закрывающие проверяем.
+        let rec checkWithStack list (stack : Stack) =                 
                 match list with
-                | [] -> 
-                    n1 + n2 + n3 = 3
+                | [] ->                 
+                    stack.Count = 0
                 | h :: t ->             
                     match h with
-                    | '(' -> bracketCounter t (n1 + 1) n2 n3
-                    | ')' -> bracketCounter t (n1 - 1) n2 n3                          
-                    | '{' -> bracketCounter t n1 (n2 + 1) n3                                   
-                    | '}' -> bracketCounter t n1 (n2 - 1) n3                          
-                    | '[' -> bracketCounter t n1 n2 (n3 + 1)
-                    | ']' -> bracketCounter t n1 n2 (n3 - 1)                                 
+                    | '(' | '{' | '[' -> 
+                        stack.Push(h)
+                        checkWithStack t stack
+
+                    | ')' -> if stack.Count = 0 || Convert.ToChar(stack.Pop()) <> '(' then false  
+                             else checkWithStack t stack                     
+                                               
+                    | '}' -> if stack.Count = 0 || Convert.ToChar(stack.Pop()) <> '{' then false  
+                             else checkWithStack t stack                         
+                
+                    | ']' -> if stack.Count = 0 || Convert.ToChar(stack.Pop()) <> '[' then false  
+                             else checkWithStack t stack                                 
+
                     | _ -> failwith "very interesting..."
 
-        bracketCounter charList 1 1 1     
+        checkWithStack charList stack   
           
         
 

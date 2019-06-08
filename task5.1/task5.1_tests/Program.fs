@@ -15,3 +15,7 @@
     [<Test>]
     let ``Check correctness 3 with wrong string.`` () = 
         isBalanced "{1[0[1]]" |> should equal false
+
+    [<Test>]
+    let ``Check correctness 4 with wrong string.`` () = 
+        isBalanced "([)]" |> should equal false

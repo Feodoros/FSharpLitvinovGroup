@@ -6,15 +6,15 @@
 
     [<Test>]
     let ``Proof II = I``() = 
-        betaReduction (FullExp(Exp('a', Letter 'a'), Exp('a', Letter 'a'))) |> should equal 
-            (Exp('a', Letter 'a'))
+        betaReduction (Application(Abstraction('a', Var 'a'), Abstraction('a', Var 'a'))) |> should equal 
+            (Abstraction('a', Var 'a'))
 
     [<Test>]
     let ``K a b``() = 
-        betaReduction (FullExp(FullExp(Exp('x', Exp('y', Letter 'x')), Letter 'a'), Letter 'b')) |> should equal
-            (Letter 'a') 
+        betaReduction (Application(Application(Abstraction('x', Abstraction('y', Var 'x')), Var 'a'), Var 'b')) |> should equal
+            (Var 'a') 
 
     [<Test>]
     let ``KI = K_*``() = 
-        betaReduction (FullExp(Exp('a', Exp('b', Letter 'a')), Exp('a', Letter 'a'))) |> should equal
-            (Exp('b', Exp('a', Letter 'a')))
+        betaReduction (Application(Abstraction('a', Abstraction('b', Var 'a')), Abstraction('a', Var 'a'))) |> should equal
+            (Abstraction('b', Abstraction('a', Var 'a')))

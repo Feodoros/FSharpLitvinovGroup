@@ -1,19 +1,19 @@
 ﻿module Logic  
 
-    ///Тип выражения -- буква, все выражение, лямбда-терм
+    ///Переменная, абстракция, аппликаиця 
     type Term =
-        | Letter of char
-        | Exp of char * Term
-        | FullExp of Term * Term
+        | Var of char
+        | Abstraction of char * Term
+        | Application of Term * Term
 
     let chars = ['a'..'z'] 
 
     ///Образуется ли коллизия в выражении
-    let rec collision x c =
+    let rec collision x k =
         match x with
-        | Letter(s) when (s = c) -> true
-        | Exp(s, p) when (s = c) || collision p c -> true  
-        | FullExp(s, p) when (collision s c) || (collision p c) -> true      
+        | Var(s) when (s = k) -> true
+        | Abstraction(s, p) when (s = k) || collision p k -> true  
+        | Application(s, p) when (collision s k) || (collision p k) -> true      
         | _ -> false
 
     ///Переименование переменных
@@ -23,36 +23,36 @@
         else a
 
     ///Альфа-преобразование
-    let rec alphaReduction check x y =
+    let rec alphaСonversion check x y =
         match x with
-        | Letter(o) -> Letter(checkToRename o check y)
-        | Exp(s, p) -> Exp(checkToRename s check y, alphaReduction check p y)
-        | FullExp(s, p) -> FullExp(alphaReduction check s y, alphaReduction check p y)
+        | Var(o) -> Var(checkToRename o check y)
+        | Abstraction(s, p) -> Abstraction(checkToRename s check y, alphaСonversion check p y)
+        | Application(s, p) -> Application(alphaСonversion check s y, alphaСonversion check p y)
     
     ///Разбираем и проверяем терм 
-    let rec checkExp check x y =
-       match x with
-       | Letter(t) when (t = check) -> y
-       | Letter(t) -> Letter(t)
-       | Exp(m, n) -> Exp(m, checkExp check n y)
-       | FullExp(m, n) -> FullExp(checkExp check m y, checkExp check n y)
+    let rec reductionOfAbstr check k y =
+       match k with
+       | Var(t) when (t = check) -> y
+       | Var(t) -> Var(t)
+       | Abstraction(m, n) -> Abstraction(m, reductionOfAbstr check n y)
+       | Application(m, n) -> Application(reductionOfAbstr check m y, reductionOfAbstr check n y)
 
     ///Бета-редукция
     let rec betaReduction x =     
         match x with   
-        | Letter(t) -> Letter(t) 
-        | Exp(t, s) -> 
+        | Var(t) -> Var(t) 
+        | Abstraction(t, s) -> 
             match s with
-                | FullExp(m, n) -> Exp(t, betaReduction (FullExp(betaReduction m, betaReduction n)))
-                | Exp(m, n) -> Exp(t, betaReduction s)
-                | _ -> Exp(t, s)
-        | FullExp(Letter(y), s) -> 
+                | Application(m, n) -> Abstraction(t, betaReduction (Application(betaReduction m, betaReduction n)))
+                | Abstraction(m, n) -> Abstraction(t, betaReduction s)
+                | _ -> Abstraction(t, s)
+        | Application(Var(y), s) -> 
             match s with
-            | FullExp(m, n) -> FullExp(Letter(y), betaReduction (FullExp(betaReduction m, betaReduction n)))
-            | _ -> FullExp(Letter(y), s)
-        | FullExp(Exp(t, u), y) -> 
+            | Application(m, n) -> Application(Var(y), betaReduction (Application(betaReduction m, betaReduction n)))
+            | _ -> Application(Var(y), s)
+        | Application(Abstraction(t, u), y) -> 
             match y with
-            | Letter(o) when (collision x o) -> betaReduction (checkExp (checkToRename t o x) (alphaReduction o u x) y)     
-            | _ ->  betaReduction (checkExp t u y)
-        | FullExp(s, y) -> betaReduction (FullExp(betaReduction s, betaReduction y))
+            | Var(o) when (collision x o) -> betaReduction (reductionOfAbstr (checkToRename t o x) (alphaСonversion o u x) y)     
+            | _ ->  betaReduction (reductionOfAbstr t u y)
+        | Application(s, y) -> betaReduction (Application(betaReduction s, betaReduction y))
 

@@ -1,6 +1,7 @@
 ﻿module Logic 
-open System.IO
-open System
+    open System.IO
+    open System
+    open System.Collections.Generic
     
     type User =
         {
@@ -10,30 +11,35 @@ open System
 
     type Book () = 
 
-        let mutable list = []  
+        let list = List<User>()  
 
         member Book.GetUserList = list
 
-        member Book.Add (user : User) = list <- (user :: list)
+        member Book.Add (user : User) = list.Add(user)
 
-        member Book.SearchNumber (name : string) = 
-            if (List.exists (fun i -> i.userName = name) list) then 
-                (List.find (fun i -> i.userName = name) list).userNumber
-            else "Contact with this name doesn't exist."  
+        member Book.SearchNumber (name : string) =             
+            list.Find(fun i -> i.userName = name).userNumber
                
         member Book.SearchName (number : string) =
-            if (List.exists (fun i -> i.userNumber = number) list) then 
-                (List.find (fun i -> i.userNumber = number) list).userName
-            else "Contact with this number doesn't exist."                  
+            list.Find(fun i -> i.userNumber = number).userName
+                
+        member Book.Print (list : List<User>) =             
+            list.ForEach(fun i -> printfn " Name: %A \n Phone: %A \n" i.userName i.userNumber )         
 
-        member Book.Print list = 
-            List.iter (fun i -> printfn " Name: %A \n Phone: %A \n" i.userName i.userNumber ) list         
+        member Book.CreateFile (list : List<User>) = 
 
-        member Book.CreateFile list = File.WriteAllLines("handbook.txt", List.map (fun i -> i.userName + " " + i.userNumber) list)   
+            let rec reformList (list: List<User>) (list1: List<String>) = 
+                if list.Count = 0 then list1
+                else list1.Add(list.Item(0).userName + " " + list.Item(0).userNumber)
+                     list.RemoveAt(0)  
+                     reformList list list1
+                
+            let listx = List<String>()    
+            let fileFromBook = (reformList list listx).ToArray()  
+            File.WriteAllLines("handbook.txt", fileFromBook)   
 
-        member Book.ReadData newlist  = 
-
-                let rec readDataFromFile contactList listFromTextFileBook =
+        member Book.ReadData newlist  =                 
+                let rec readDataFromFile (contactList : List<User>) listFromTextFileBook =
                     match listFromTextFileBook with
                     |[] -> contactList
                     | (h : string) :: (t : string list) -> 
@@ -41,15 +47,15 @@ open System
                         let name = List.head textBook 
                         let number = List.head (List.tail textBook)
                         let user = {userName = name; userNumber = number }
-                        readDataFromFile (user :: contactList) t
-
-                list <- readDataFromFile newlist (Seq.toList (File.ReadLines("handbook.txt")))
+                        contactList.Add(user)
+                        readDataFromFile contactList t
+                list.Clear() 
+                list.AddRange(readDataFromFile newlist (Seq.toList (File.ReadLines("handbook.txt"))))
         
-
-    let book = Book() 
+    let contactList = List<User>()    
+    let book = Book()
     ///Запускаем телефонный справочник в интерактивном режиме.
-    let rec loop contactList =
-        
+    let rec loop contactList =            
         printfn "1 -> Exit"
         printfn "2 -> New contact"
         printfn "3 -> Search number"
@@ -66,12 +72,12 @@ open System
         |"2" -> 
             printfn "Name: "
             let name = Console.ReadLine()              
-            if (List.exists (fun i -> i.userName = name) book.GetUserList ) then 
+            if (book.GetUserList.Exists (fun i -> i.userName = name)) then 
                 printfn "This name has already used."
             else               
                 printfn "Number: "
                 let number = Console.ReadLine()
-                if (List.exists (fun i -> i.userNumber = number) book.GetUserList ) then 
+                if (book.GetUserList.Exists(fun i -> i.userNumber = number)) then 
                     printfn "This number has already used." 
                 else                   
                     let user = {userName = name; userNumber = number}            
@@ -79,7 +85,7 @@ open System
             loop book.GetUserList
         |"3" ->
              printfn "Write name: "                 
-             let name = Console.ReadLine()          
+             let name = Console.ReadLine()               
              printfn "%s" <| book.SearchNumber(name)
              loop contactList
         |"4" -> 
@@ -88,7 +94,7 @@ open System
             printfn "%s" <| book.SearchName(number) 
             loop contactList
         |"5" -> 
-            if (contactList.IsEmpty) then printfn "Add something to handbook."
+            if (contactList.Count = 0) then printfn "Add something to handbook."
             else book.Print contactList                
             loop contactList
         |"6" -> 
@@ -96,17 +102,14 @@ open System
             printfn "Successfully."
             loop contactList
         |"7" -> 
-            if (File.Exists("handbook.txt")) then 
+            if (File.Exists("handbook.txt")) then         
                 book.ReadData contactList
                 printfn "Successfully" 
-                loop book.GetUserList
+                loop (book.GetUserList)
             else 
                 printfn "Nothing found." 
                 loop contactList
         |_ -> 
             printfn "This command is not defined." 
             loop contactList
-
-
-
-    
+            

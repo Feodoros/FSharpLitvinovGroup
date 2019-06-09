@@ -3,6 +3,7 @@
     open NUnit.Framework
     open FsUnit
     open Logic 
+    open System.Linq
 
     [<Test>]
     let ``Check adding to book.`` () =
@@ -14,10 +15,10 @@
         book.Add(contact'0)
         book.Add(contact'1)
 
-        List.exists (fun i -> i.userName = contact'0.userName && i.userNumber = contact'0.userNumber) book.GetUserList 
+        (book.GetUserList).Exists (fun i -> i.userName = contact'0.userName && i.userNumber = contact'0.userNumber) 
         |> should equal true
 
-        List.exists (fun i -> i.userName = contact'1.userName && i.userNumber = contact'1.userNumber) book.GetUserList 
+        (book.GetUserList).Exists(fun i -> i.userName = contact'1.userName && i.userNumber = contact'1.userNumber) 
         |> should equal true
    
     [<Test>]
@@ -34,9 +35,7 @@
 
         book.SearchName("777") 
         |> should equal "Fedor"
-
-        book.SearchName("239") 
-        |> should equal "Contact with this number doesn't exist."
+        
     
     [<Test>]
     let ``Check read and write data.`` () =
@@ -50,9 +49,9 @@
         book.CreateFile (book.GetUserList)
 
         let book1 = Book()
-        book1.ReadData []
+        book1.ReadData (book.GetUserList)
 
-        List.forall2 (fun x y -> x.userName = y.userName)  book.GetUserList  <| List.rev (book1.GetUserList)
+        book.GetUserList.SequenceEqual(book1.GetUserList)  
         |> should equal true
 
         

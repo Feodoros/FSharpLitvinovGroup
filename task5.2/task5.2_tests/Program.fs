@@ -3,6 +3,7 @@
     open NUnit.Framework    
     open FsCheck.NUnit 
     open FsUnit
+    open Logic
 
     [<Test>]
     let ``Test our finalFunc`` () =
@@ -10,4 +11,4 @@
 
     [<Property>]
     let ``FsCheck testing.`` (num : int, list : list<int>) =        
-        (List.map (fun y -> y * num) list) = (|>) List.map ((>>) (*)) num list
+        (List.map (fun y -> y * num) list) = funcFinal() num list

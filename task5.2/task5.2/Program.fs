@@ -1,4 +1,4 @@
-﻿module Logic =
+﻿module Logic 
 
     let funcStart x l = List.map (fun y -> y * x) l
    
@@ -15,4 +15,4 @@
     let func4 = (|>) List.map ((>>) (*))
 
     ///Ответ
-    let funcFinal = List.map << (*)
+    let funcFinal () = List.map << (*)

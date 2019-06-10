@@ -16,14 +16,14 @@ open System
 
     ///Модель заражения компьютеров в лок сети 
     type Network(newNetwork : list<TypeComp>, matrix : bool[,])=
-        let r = new Random()
+        let r = Random()
         let mutable computersInNetwork = newNetwork
         let mutable matrixOfLink = matrix
 
         member Network.Computers = computersInNetwork
 
         member Network.OneStepVirus() =
-                let computersInfectedNow = new List<TypeComp>()
+                let computersInfectedNow = List<TypeComp>()
                 for i in 0 .. (List.length Network.Computers) - 1 do
                     if (Network.Computers.[i].Inf) then
                         for j in 0 .. (List.length Network.Computers) - 1 do
@@ -39,7 +39,7 @@ open System
 
         ///Проверяем зараженны ли все компы
         member Network.CheckToInfected() =
-               let check = List.filter (fun x -> x.Inf = false) Network.Computers
+               let check = List.filter (fun x -> not x.Inf) Network.Computers
                check.Length = 0
         
         ///Начинаем заражение
@@ -47,7 +47,7 @@ open System
                let mutable i = 1;
                Console.WriteLine("Step 0");
                Network.StatusInfectedNow();
-               while (Network.CheckToInfected() = false) do
+               while (not <| Network.CheckToInfected()) do
                    Network.OneStepVirus();
                    Console.WriteLine("Step " + i.ToString())
                    Network.StatusInfectedNow()

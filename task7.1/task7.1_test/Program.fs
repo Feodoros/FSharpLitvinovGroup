@@ -13,7 +13,7 @@
                 return a / b
             }
 
-        l |> should equal 0.048
+        l |> should (equalWithin 0.1) 0.048
 
     [<Test>]
     let ``Test WorkFlow 2``() = 
@@ -24,4 +24,4 @@
                 return a / b
             }
 
-        l |> should equal 0.11
+        l |> should (equalWithin 0.1) 0.11

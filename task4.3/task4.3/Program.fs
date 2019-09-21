@@ -1,5 +1,7 @@
 ﻿module Logic  
 
+open System.Numerics
+
     ///Переменная, абстракция, аппликаиця 
     type Term =
         | Var of char
@@ -41,18 +43,15 @@
     let rec betaReduction x =     
         match x with   
         | Var(t) -> Var(t) 
-        | Abstraction(t, s) -> 
-            match s with
-                | Application(m, n) -> Abstraction(t, betaReduction (Application(betaReduction m, betaReduction n)))
-                | Abstraction(m, n) -> Abstraction(t, betaReduction s)
-                | _ -> Abstraction(t, s)
-        | Application(Var(y), s) -> 
-            match s with
-            | Application(m, n) -> Application(Var(y), betaReduction (Application(betaReduction m, betaReduction n)))
-            | _ -> Application(Var(y), s)
+
+        | Application(Var(y), s) -> Application (Var(y), betaReduction s) 
+
+        | Abstraction(t, s) -> Abstraction(t, betaReduction s)                
+        
         | Application(Abstraction(t, u), y) -> 
             match y with
             | Var(o) when (collision x o) -> betaReduction (reductionOfAbstr (checkToRename t o x) (alphaСonversion o u x) y)     
             | _ ->  betaReduction (reductionOfAbstr t u y)
-        | Application(s, y) -> betaReduction (Application(betaReduction s, betaReduction y))
+
+        | Application(s, y) -> Application(betaReduction s, betaReduction y)
 

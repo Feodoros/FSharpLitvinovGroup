@@ -18,3 +18,5 @@
     let ``KI = K_*``() = 
         betaReduction (Application(Abstraction('a', Abstraction('b', Var 'a')), Abstraction('a', Var 'a'))) |> should equal
             (Abstraction('b', Abstraction('a', Var 'a')))
+
+   

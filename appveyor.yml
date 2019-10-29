@@ -1,7 +1,7 @@
 image: Visual Studio 2017
 
 build_script:
-    - cmd: cd Task3.1
+    - cmd: cd task8.1
     - cmd: dotnet build
 
 test_script:

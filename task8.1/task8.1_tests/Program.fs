@@ -28,25 +28,6 @@
 
 
     [<Test>]
-    let ``Check values in MultiplyMode``() =
-
-        let object = LazyFactory.CreateMultiplyThreadedLazy(fun () -> new obj())
-        let a = (object :> ILazy<obj>).Get()
-        ignore <| Seq.map(fun x -> ((object :> ILazy<obj>).Get ()).Equals(a) |> should be True) [|1..rand()|] 
-
-
-    [<Test>]
-    let ``Check operations in MultiplyMode``() =
-
-        let mutable counter : int64 = (int64) 0
-        let object = LazyFactory.CreateMultiplyThreadedLazy(fun () -> 
-            ignore <| Interlocked.Increment &counter  
-            (Interlocked.Read &counter) |> should equal 1)             
-        for i in 1..rand() do
-             ignore <| Task.Run(fun () -> (object :> ILazy<unit>).Get()) 
-
-
-    [<Test>]
     let ``Check MultiplyMode``() =
 
         let object = LazyFactory.CreateMultiplyThreadedLazy(fun () -> 344)            
@@ -61,13 +42,13 @@
 
 
     [<Test>]
-    let ``Check values in MultiplyLockMode``() =
-    
-        let object = LazyFactory.CreateMultiplyLockThreadedLazy(fun () -> new obj())
+    let ``Check values in MultiplyMode``() =
+
+        let object = LazyFactory.CreateMultiplyThreadedLazy(fun () -> new obj())
         let a = (object :> ILazy<obj>).Get()
         ignore <| Seq.map(fun x -> ((object :> ILazy<obj>).Get ()).Equals(a) |> should be True) [|1..rand()|] 
 
-    
+
     [<Test>]
     let ``Check race in MultiplyMode``() =
 
@@ -80,7 +61,15 @@
                                 let otherRes = check x
                                 (check object).Equals(otherRes) |> should equal true
                             }) |> Async.Parallel |> Async.RunSynchronously |> ignore
-        
+
+
+    [<Test>]
+    let ``Check values in MultiplyLockMode``() =
+    
+        let object = LazyFactory.CreateMultiplyLockThreadedLazy(fun () -> new obj())
+        let a = (object :> ILazy<obj>).Get()
+        ignore <| Seq.map(fun x -> ((object :> ILazy<obj>).Get ()).Equals(a) |> should be True) [|1..rand()|] 
+     
 
     [<Test>]
     let ``Check race in MultiplyLockMode``() =
@@ -96,14 +85,3 @@
                                 let otherRes = check x
                                 first.Equals(otherRes) |> should equal true
                             }) |> Async.Parallel |> Async.RunSynchronously |> ignore
-        
-
-    [<Test>]
-    let ``Check operations in MultiplyLockMode``() =
-
-        let mutable counter : int64 = (int64) 0
-        let object = LazyFactory.CreateMultiplyLockThreadedLazy(fun () -> 
-            ignore <| Interlocked.Increment &counter  
-            (Interlocked.Read &counter) |> should equal 1)             
-        for i in 1..rand() do
-             ignore <| Task.Run(fun () -> (object :> ILazy<unit>).Get()) 

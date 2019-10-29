@@ -9,7 +9,8 @@
 
 
     /// - Простая версия с гарантией корректной работы в однопоточном режиме (без синхронизации)
-    type SingleMode<'a> (supplier) =         
+    type SingleMode<'a> (supplier) = 
+        let mutable isDone = false
         let mutable res = None
         interface ILazy<'a> with
             member __.Get() = 
@@ -17,26 +18,34 @@
                     res.Value
                 else 
                     res <- Some(supplier())
-                    supplier()
+                    isDone <- true
+                    res.Value
+        
+        member __.IsDone = isDone
 
 
     /// - Гарантия корректной работы в многопоточном режиме; вычисление не должно производиться более одного раза
-    type MultiplyMode<'a> (supplier) =   
+    type MultiplyMode<'a> (supplier) = 
+        let mutable isDone = ref false
         let tempObj = obj() 
         let mutable res = None        
         interface ILazy<'a> with
             member __.Get() =
-                if res.IsSome then 
+                let a = ref (Volatile.Read(isDone))
+                if !a then 
                     res.Value
                 else 
-                    lock tempObj (fun () -> 
-                    if res.IsSome then 
-                        res.Value
-                    else
-                        res <- Some(supplier())
-                        supplier())
+                    lock tempObj (fun () ->                        
+                        if !a then
+                            res.Value
+                        else                 
+                            res <- Some(supplier())
+                            Volatile.Write(isDone, true)                            
+                            res.Value)  
 
-             
+        member __.IsDone = Volatile.Read(isDone)
+
+
     /// - То же, что и предыдущее, но lock-free; вычисление может производиться более одного раза, но при этом Lazy.Get
     /// всегда должен возвращать один и тот же объект 
     type MultiplyLockMode<'a> (supplier) = 

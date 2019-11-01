@@ -1,8 +1,15 @@
 # FSharpLitvinovGroup
+
+<p align="left">
+  <a href="https://ci.appveyor.com/project/Feodoros/fsharplitvinovgroup">
+    <img src="https://ci.appveyor.com/api/projects/status/n8dy8vrh6n4yng56?svg=true">
+  </a>  
+</p>
+
 Home Works F# lang.
 
 This repo contains all homeworks from [this course](http://hwproj.me/courses/31).
-![alt text](https://raw.githubusercontent.com/username/projectname/branch/path/to/img.png)
+
 Below are listed all tasks with links and descriptions.
 
 ## Homework 1. 

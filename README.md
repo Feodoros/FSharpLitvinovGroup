@@ -2,7 +2,7 @@
 Home Works F# lang.
 
 This repo contains all homeworks from [this course](http://hwproj.me/courses/31).
-
+![alt text](https://raw.githubusercontent.com/username/projectname/branch/path/to/img.png)
 Below are listed all tasks with links and descriptions.
 
 ## Homework 1. 

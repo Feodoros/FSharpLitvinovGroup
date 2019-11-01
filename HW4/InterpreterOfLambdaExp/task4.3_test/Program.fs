@@ -12,7 +12,7 @@
     [<Test>]
     let ``K a b``() = 
         betaReduction (Application(Application(Abstraction('x', Abstraction('y', Var 'x')), Var 'a'), Var 'b')) |> should equal
-            (Var 'a') 
+            (Application (Abstraction ('y',Var 'a'),Var 'b')) 
 
     [<Test>]
     let ``KI = K_*``() = 

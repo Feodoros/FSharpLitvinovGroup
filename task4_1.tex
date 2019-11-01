@@ -1,0 +1,21 @@
+\documentclass[a4paper,17pt]{extarticle}
+\usepackage[utf8]{inputenc}
+\usepackage[left=8mm, top=0.5in]{geometry}
+
+\begin{document}
+
+$\beta \textbf{ - reduction of this } \lambda \textbf{ - term:}$ \newline
+
+$((\lambda a.(\lambda b.b b) (\lambda b.b b)) b) ((\lambda c.(c b)) (\lambda a.a))$ \newline
+
+$\textbf{1) } ((\lambda a.(\lambda b.b b) (\lambda b.b b)) b) ((\lambda c.(c b)) (\lambda a.a)) \Longrightarrow_\beta $ \newline
+
+$\textbf{2) } ((\lambda b.b b)\ (\lambda b.b b)) ((\lambda c.(c b)) (\lambda a.a)) \Longrightarrow_\beta $ \newline
+
+$\textbf{3) } ((\lambda b.b b)\ (\lambda b.b b)) ((\lambda a.a) b)) \Longrightarrow_\beta $ \newline
+
+$\textbf{4) } ((\lambda b.b b)\ (\lambda b.b b)) b$ \newline
+
+$\textbf{Answer: } ((\lambda b.b b)\ (\lambda b.b b))\ b$ 
+
+\end{document}

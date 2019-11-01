@@ -18,7 +18,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\Task4.4\Task4.4.fsproj" />
+    <ProjectReference Include="..\Task3.4\Task4.4.fsproj" />
   </ItemGroup>
 
 </Project>

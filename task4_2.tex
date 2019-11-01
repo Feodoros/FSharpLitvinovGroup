@@ -1,0 +1,16 @@
+\documentclass[a4paper,17pt]{extarticle}
+\usepackage[utf8]{inputenc}
+\usepackage[left=8mm, top=0.5in]{geometry}
+
+\begin{document}
+
+$
+\textbf{S} =  (\lambda x\ y\ z.x\ z\ (y\ z)) \newline
+\textbf{K} = (\lambda x\ y.x) \newline \newline
+\textbf{S K K} = (\lambda x\ y\ z.x\ z\ (y\ z))\ (\lambda x\ y.x) (\lambda x\ y.x)\
+= (\lambda y\ z.(\lambda x\ y.x)\ z\ (y\ z))\ (\lambda x\ y.x) = 
+= (\lambda y\ z.(\lambda y.z)\ (y\ z))\ (\lambda x\ y.x) 
+= (\lambda y.\lambda z.z)\ (\lambda x\ y.x) = (\lambda z.z) = I
+$
+
+\end{document}

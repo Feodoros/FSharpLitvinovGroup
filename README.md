@@ -87,13 +87,13 @@ Below are listed all tasks with links and descriptions.
  - [5.3](https://github.com/Feodoros/FSharpLitvinovGroup/tree/master/HW5/PhoneBook)
 
    Write phone book. It should be able to store names and phone numbers and make these operations in an interactive mode:
-   -- exit.
-   -- add record (and and phone).
-   -- find phone by name.
-   -- find name by phone.
-   -- print all book content.
-   -- save current data to file.
-   -- read data from file.
+   * exit.
+   * add record (and and phone).
+   * find phone by name.
+   * find name by phone.
+   * print all book content.
+   * save current data to file.
+   * read data from file.
 
 ## Homework 6. 
 29.03.19 
@@ -158,10 +158,10 @@ Below are listed all tasks with links and descriptions.
    Implement a [Bor/Trie](http://neerc.ifmo.ru/wiki/index.php?title=%D0%91%D0%BE%D1%80)
    The following methods should be supported:
 
-- boolean Add(String element) (returns true if there was no such string yet, works for O (|element|))
-- boolean Contains(String element) (works for O (|element|))
-- int Size () (works for O(1))
-- int HowManyStartsWithPrefix(String prefix) (works for O (|prefix|))
+   * boolean Add(String element) (returns true if there was no such string yet, works for O (|element|))
+   * boolean Contains(String element) (works for O (|element|))
+   * int Size () (works for O(1))
+   * int HowManyStartsWithPrefix(String prefix) (works for O (|prefix|))
 
 ## Homework 8. 
 19.04.19 
